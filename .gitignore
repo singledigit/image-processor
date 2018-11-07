@@ -75,7 +75,8 @@ typings/
 
 # dotenv environment variables file
 .env
-
+locals.json
+out.yaml
 
 ### OSX ###
 *.DS_Store

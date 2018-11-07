@@ -40,7 +40,7 @@ Resources:
           Resource: !GetAtt ProcessQueue.Arn
           Condition:
             ArnLike:
-              aws:SourceArn: arn:aws:s3:::*
+              aws:SourceArn: !Sub 'arn:aws:s3:::${AWS::StackName}-*'
           Principal: "*"
       Queues:
       - !Ref ProcessQueue
@@ -56,6 +56,9 @@ Resources:
         - RekognitionDetectOnlyPolicy: {}
       CodeUri: process-service/
       Handler: app.lambdaHandler
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ResultsTable
       Events:
         Process:
           Type: SQS
