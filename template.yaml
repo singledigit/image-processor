@@ -17,9 +17,15 @@ Resources:
     Properties:
       CodeUri: process-service/
       Handler: app.lambdaHandler
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ResultsTable
       Events:
         Bucket:
           Type: S3
           Properties:
             Bucket: !Ref ProcessInBucket
-            Events: s3:ObjectCreated:* 
+            Events: s3:ObjectCreated:*
+
+  ResultsTable:
+    Type: AWS::Serverless::SimpleTable

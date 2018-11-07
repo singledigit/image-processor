@@ -8,6 +8,10 @@ Resources:
   ProcessFunction:
     Properties:
       CodeUri: s3://ej-ip/5ee91fee8c0e10c9882190b63ada1d0e
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: ResultsTable
       Events:
         Bucket:
           Properties:
@@ -19,4 +23,6 @@ Resources:
     Type: AWS::Serverless::Function
   ProcessInBucket:
     Type: AWS::S3::Bucket
+  ResultsTable:
+    Type: AWS::Serverless::SimpleTable
 Transform: AWS::Serverless-2016-10-31
