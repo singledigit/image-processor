@@ -1,0 +1,14 @@
+root = true
+
+
+[*.yaml]
+indent_style = space
+indent_size = 2
+
+[*.js]
+indent_style = space
+indent_size = 2
+
+[*.json]
+indent_style = space
+indent_size = 2

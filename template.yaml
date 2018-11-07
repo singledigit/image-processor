@@ -1,0 +1,76 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+    image-processor
+    Sample SAM Template for image-processor
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Runtime: nodejs8.10
+    Timeout: 3
+
+Resources:
+
+  ProcessQueue:
+    Type: AWS::SQS::Queue
+
+  ProcessInBucket:
+    Type: AWS::S3::Bucket
+    DependsOn:
+      - ProcessQueue
+      - ProcessQueuePolicy
+    Properties:
+      NotificationConfiguration:
+        QueueConfigurations:
+        - Event: s3:ObjectCreated:*
+          Queue: !GetAtt ProcessQueue.Arn
+
+  ProcessQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    DependsOn:
+      - ProcessQueue
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Action:
+          - sqs:SendMessage
+          Effect: Allow
+          Resource: !GetAtt ProcessQueue.Arn
+          Condition:
+            ArnLike:
+              aws:SourceArn: arn:aws:s3:::*
+          Principal: "*"
+      Queues:
+      - !Ref ProcessQueue
+
+  ProcessFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: process-service/
+      Handler: app.lambdaHandler
+      Events:
+        Process:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt ProcessQueue.Arn
+            BatchSize: 10
+      
+
+# Outputs:
+
+#     UploaderApi:
+#         Description: "API Gateway endpoint URL for Prod stage for Uploader function"
+#         Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/upload/"
+
+#     UploaderFunction:
+#         Description: "Uploader Lambda Function ARN"
+#         Value: !GetAtt UploaderFunction.Arn
+
+#     UploaderFunctionIamRole:
+#         Description: "Implicit IAM Role created for Uploader function"
+#         Value: !GetAtt UploaderFunctionRole.Arn
+
+    
+    

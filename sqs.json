@@ -1,0 +1,50 @@
+{
+  "Records": [{
+    "messageId": "2160cac8-d943-4e59-aad2-dd42034fc65a",
+    "receiptHandle": "AQEBMMwirom/kGvPmVp1NL8TX2GmGueWVqYmVlXGh3qs5V9rhwcgU92F2XcrVM1gQ7Fni4smaFlgOnK66HT05g0c4F6nZ3jUsmk4HigrzqpJakT2vCKXi5EXzozKwsd98L2cMGsb1+5OD5JLbmEi3QIPGVgRBbwOFop0u8mvbL9Z3YapPBMqud9Uw7k8VYpqcZj5SYcquqKv/WdWARegL8aAjcsRwE99GPgakE/ieXXlbg44Yk0LOxRB7zoHDotrR8DgC0At+LMxV6mIeIOSdFaNXpOjaYXGvf9MOfi5Je6ClyGx8qhq+5eT46IAftcVazUh5Tlyoq/u4ySPGcWl8fjumdgd+sEjonzlVpVRcG+QwUYYMHUq5qiphY3PyhzzI9N4H3i1iH/zF/x7n6W9Iv+cIzGPSPGZfqYVhjGk0X61vOau8cLd7HeL+57hUzxKxZ7v",
+    "body": {
+      "Records": [{
+        "eventVersion": "2.0",
+        "eventSource": "aws:s3",
+        "awsRegion": "us-west-2",
+        "eventTime": "2018-11-06T23:04:18.176Z",
+        "eventName": "ObjectCreated:Put",
+        "userIdentity": {
+          "principalId": "AWS:AIDAIAE5AYUIOBB4KELAM"
+        },
+        "requestParameters": {
+          "sourceIPAddress": "69.11.193.138"
+        },
+        "responseElements": {
+          "x-amz-request-id": "46BF756865DE0076",
+          "x-amz-id-2": "Klh6ogajIGngJ2yMqX6cKcnascuKuhj3WTYCpri4Vjjf1epvL41lDkSQMTaoRQxNiOJruIdGvMg="
+        },
+        "s3": {
+          "s3SchemaVersion": "1.0",
+          "configurationId": "1b2465c5-09ed-464b-a725-c2443439ef8e",
+          "bucket": {
+            "name": "image-processor-processinbucket-ixbzhh16hcd0",
+            "ownerIdentity": {
+              "principalId": "A2TSZ9TVX1IRWA"
+            },
+            "arn": "arn:aws:s3:::image-processor-processinbucket-ixbzhh16hcd0"
+          },
+          "object": {
+            "key": "old.jpg",
+            "size": 140065,
+            "eTag": "cd7c0cf54aa53c3b31487acb4c41efb7",
+            "sequencer": "005BE21DF1F79E6574"
+          }
+        }
+      }]
+    },
+    "attributes": [
+
+    ],
+    "messageAttributes": {},
+    "md5OfBody": "ced383d49bcf293cc6561e14e0901bc9",
+    "eventSource": "aws:sqs",
+    "eventSourceARN": "arn:aws:sqs:us-west-2:410646685895:image-processor-ProcessQueue-J84X2VRAWC7K",
+    "awsRegion": "us-west-2"
+  }]
+}
