@@ -4,11 +4,10 @@ Description: >
     image-processor
     Sample SAM Template for image-processor
 
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     Runtime: nodejs8.10
-    Timeout: 3
+    Timeout: 10
 
 Resources:
 
@@ -26,7 +25,8 @@ Resources:
         - Event: s3:ObjectCreated:*
           Queue: !GetAtt ProcessQueue.Arn
 
-  ProcessQueuePolicy:
+  # Process Queues to be GA 11/15/2018
+  ProcessQueuePolicy: 
     Type: AWS::SQS::QueuePolicy
     DependsOn:
       - ProcessQueue
@@ -48,6 +48,12 @@ Resources:
   ProcessFunction:
     Type: AWS::Serverless::Function
     Properties:
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ResultsTable
+        - S3ReadPolicy:
+            BucketName: !Ref ProcessInBucket
+        - RekognitionDetectOnlyPolicy: {}
       CodeUri: process-service/
       Handler: app.lambdaHandler
       Events:
@@ -56,7 +62,9 @@ Resources:
           Properties:
             Queue: !GetAtt ProcessQueue.Arn
             BatchSize: 10
-      
+  
+  ResultsTable:
+    Type: AWS::Serverless::SimpleTable
 
 # Outputs:
 

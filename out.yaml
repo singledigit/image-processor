@@ -5,11 +5,11 @@ Description: 'image-processor Sample SAM Template for image-processor
 Globals:
   Function:
     Runtime: nodejs8.10
-    Timeout: 3
+    Timeout: 10
 Resources:
   ProcessFunction:
     Properties:
-      CodeUri: s3://ej-ip/8f7158b143a3e80fbf6ddfd3624ebb58
+      CodeUri: s3://ej-ip/d12ab9458afd8cda063f2134b207c444
       Events:
         Process:
           Properties:
@@ -20,6 +20,14 @@ Resources:
               - Arn
           Type: SQS
       Handler: app.lambdaHandler
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: ResultsTable
+      - S3ReadPolicy:
+          BucketName:
+            Ref: ProcessInBucket
+      - RekognitionDetectOnlyPolicy: {}
     Type: AWS::Serverless::Function
   ProcessInBucket:
     DependsOn:
@@ -57,4 +65,6 @@ Resources:
       Queues:
       - Ref: ProcessQueue
     Type: AWS::SQS::QueuePolicy
+  ResultsTable:
+    Type: AWS::Serverless::SimpleTable
 Transform: AWS::Serverless-2016-10-31

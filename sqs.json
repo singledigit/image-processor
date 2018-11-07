@@ -21,16 +21,16 @@
         },
         "s3": {
           "s3SchemaVersion": "1.0",
-          "configurationId": "1b2465c5-09ed-464b-a725-c2443439ef8e",
+          "configurationId": "image-processor-processinbucket-tlowrya5thn5",
           "bucket": {
-            "name": "image-processor-processinbucket-ixbzhh16hcd0",
+            "name": "image-processor-processinbucket-tlowrya5thn5",
             "ownerIdentity": {
               "principalId": "A2TSZ9TVX1IRWA"
             },
-            "arn": "arn:aws:s3:::image-processor-processinbucket-ixbzhh16hcd0"
+            "arn": "arn:aws:s3:::image-processor-processinbucket-tlowrya5thn5"
           },
           "object": {
-            "key": "old.jpg",
+            "key": "IMG_0824.jpg",
             "size": 140065,
             "eTag": "cd7c0cf54aa53c3b31487acb4c41efb7",
             "sequencer": "005BE21DF1F79E6574"
