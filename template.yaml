@@ -1,31 +1,84 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Sample SAM Template for image-processor
+Description: >
+    image-processor
+    Sample SAM Template for image-processor
 
 Globals:
   Function:
     Runtime: nodejs8.10
-    Timeout: 3
+    Timeout: 10
 
 Resources:
 
+  ProcessQueue:
+    Type: AWS::SQS::Queue
+
   ProcessInBucket:
     Type: AWS::S3::Bucket
+    DependsOn:
+      - ProcessQueue
+      - ProcessQueuePolicy
+    Properties:
+      NotificationConfiguration:
+        QueueConfigurations:
+        - Event: s3:ObjectCreated:*
+          Queue: !GetAtt ProcessQueue.Arn
+
+  # Process Queues to be GA 11/15/2018
+  ProcessQueuePolicy: 
+    Type: AWS::SQS::QueuePolicy
+    DependsOn:
+      - ProcessQueue
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Action:
+          - sqs:SendMessage
+          Effect: Allow
+          Resource: !GetAtt ProcessQueue.Arn
+          Condition:
+            ArnLike:
+              aws:SourceArn: arn:aws:s3:::*
+          Principal: "*"
+      Queues:
+      - !Ref ProcessQueue
 
   ProcessFunction:
     Type: AWS::Serverless::Function
     Properties:
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ResultsTable
+        - S3ReadPolicy:
+            BucketName: !Ref ProcessInBucket
+        - RekognitionDetectOnlyPolicy: {}
       CodeUri: process-service/
       Handler: app.lambdaHandler
-      Environment:
-        Variables:
-          TABLE_NAME: !Ref ResultsTable
       Events:
-        Bucket:
-          Type: S3
+        Process:
+          Type: SQS
           Properties:
-            Bucket: !Ref ProcessInBucket
-            Events: s3:ObjectCreated:*
-
+            Queue: !GetAtt ProcessQueue.Arn
+            BatchSize: 10
+  
   ResultsTable:
     Type: AWS::Serverless::SimpleTable
+
+# Outputs:
+
+#     UploaderApi:
+#         Description: "API Gateway endpoint URL for Prod stage for Uploader function"
+#         Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/upload/"
+
+#     UploaderFunction:
+#         Description: "Uploader Lambda Function ARN"
+#         Value: !GetAtt UploaderFunction.Arn
+
+#     UploaderFunctionIamRole:
+#         Description: "Implicit IAM Role created for Uploader function"
+#         Value: !GetAtt UploaderFunctionRole.Arn
+
+    
+    
