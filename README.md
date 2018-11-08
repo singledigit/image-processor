@@ -5,7 +5,7 @@ This is a sample template for image-processor - Below is a brief explanation of 
 ```bash
 .
 ├── README.md                   <-- This instructions file
-├── package.jso                 <-- NodeJS Dependencies
+├── package.json                <-- NodeJS Dependencies
 ├── process-service             <-- Source code for a lambda function
 │   ├── app.js                  <-- Lambda function code
 │   └── tests                   <-- Unit tests
