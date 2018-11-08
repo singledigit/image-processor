@@ -27,7 +27,7 @@ This is a sample template for image-processor - Below is a brief explanation of 
 In this example we use `npm` but you can use `yarn` if you prefer to manage NodeJS dependencies:
 
 ```bash
-cd hello_world
+cd image-processor
 npm install
 cd ../
 ```
