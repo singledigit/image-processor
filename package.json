@@ -10,9 +10,6 @@
     "axios": "^0.18.0"
   },
   "scripts": {
-    "package": "sam package --template-file template.yaml --output-template-file out.yaml --s3-bucket ej-sar-apps",
-    "deploy": "sam deploy --template-file out.yaml --stack-name image-processor --capabilities CAPABILITY_IAM",
-    "release": "npm run package && npm run deploy",
     "test": "mocha tests/unit/"
   },
   "devDependencies": {
