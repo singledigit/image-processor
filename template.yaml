@@ -1,13 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: >
-    image-processor
-    Sample SAM Template for image-processor
+Description: Sam Template for Image Processing
 
 Metadata:
   AWS::ServerlessRepo::Application:
-    Name: AIProcessor
-    Description: "Uses AWS AI to process files as needed. This first version simply processes images dropped into an S3 bucket via Rekognition. This app utilizes SQS as an event source for Lambda, therefore removing the need for Polling and reduces Queue management."
+    Name: Image Processor
+    Description: "Processes images dropped into an S3 bucket via Rekognition. This app utilizes SQS as an event source for Lambda, therefore removing the need for Polling and reduces Queue management."
     Author: Eric Johnson
     SpdxLicenseId: MIT
     LicenseUrl: LICENSE.txt
@@ -20,8 +18,8 @@ Metadata:
       - ai
       - node
     HomePageUrl: https://github.com/singledigit/image-processor
-    SemanticVersion: 0.0.2
-    SourceCodeUrl: https://github.com/singledigit/image-processor/releases/tag/v0.0.2
+    SemanticVersion: 0.0.3
+    SourceCodeUrl: https://github.com/singledigit/image-processor/releases/tag/v0.0.3
 
 Globals:
   Function:
